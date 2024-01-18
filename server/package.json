@@ -1,0 +1,30 @@
+{
+  "name": "chat-api",
+  "version": "1.0.0",
+  "description": "created backend api to handle chat app. ",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "2.4",
+    "bluebird": "3.5",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^6.2.0",
+    "express": "4.15",
+    "jsonwebtoken": "7.4",
+    "mongoose": "5.11",
+    "morgan": "^1.10.0",
+    "passport": "^0.7.0",
+    "passport-jwt": "2.2",
+    "socket.io": "1.7"
+  },
+  "devDependencies": {
+    "nodemon": "1.11"
+  }
+}
