@@ -1,0 +1,41 @@
+<nav class="navbar navbar-expand-lg bg-secondary ps-2 pe-3">
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse">
+      <div>
+        <a class="navbar-brand">
+          <img class="logo" src="../assets/images/chat-logo.png" alt="logo" />
+
+          <span class="ms-1">Chat</span>
+        </a>
+      </div>
+
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item active">
+          <a class="nav-link">Home</a>
+        </li>
+        @if (!authService.loggedIn()) {
+        <li class="nav-item">
+          <a class="nav-link"> Chat </a>
+        </li>
+        }
+      </ul>
+
+      <ul class="navbar-nav ms-auto">
+        @if(!authService.loggedIn()){
+        <li class="nav-item active">
+          <a class="nav-link">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link"> Register </a>
+        </li>
+        } @if (authService.loggedIn()) {}
+        <li class="nav-item">
+          <a class="nav-link">Profile</a>
+        </li>
+        <li class="nav-item">
+          <div class="nav-link">Logout</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
