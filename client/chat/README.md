@@ -4,9 +4,11 @@
 
 - JWt auth
 - nav toggle
+- in register page: check checkLoggedIn, custom validation of password.
 
 - Test
   - write test for click, and routing
+  - in register page: write test case
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.8.
 
