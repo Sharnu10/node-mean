@@ -2,7 +2,8 @@
 
 ## Project : Message chat with io
 
-###UI home screen
+### UI home screen
+
 ![Preview](./client/chat/preview/home_page.png)
 
 ### Tech used
