@@ -25,13 +25,30 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 //
-// declare global {
-//   namespace Cypress {
-//     interface Chainable {
-//       login(email: string, password: string): Chainable<void>
-//       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
-//     }
-//   }
-// }
+declare namespace Cypress {
+  interface Chainable {
+    //       login(email: string, password: string): Chainable<void>
+    //       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
+    //       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
+    //       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
+    showFieldError(fieldName: string, errorMessage: string): Chainable<void>;
+    showFieldMinLengthError(
+      fieldName: string,
+      errorMessage: string
+    ): Chainable<void>;
+  }
+}
+
+Cypress.Commands.add('showFieldError', (fieldName, errorMessage) => {
+  cy.get(fieldName).should('exist').focus();
+  cy.get('[type="submit"]').focus();
+
+  cy.get('.alert-danger').should('contain', errorMessage);
+});
+
+Cypress.Commands.add('showFieldMinLengthError', (fieldName, errorMessage) => {
+  cy.get(fieldName).should('exist').focus().type('asc');
+  cy.get('[type="submit"]').focus();
+
+  cy.get('.alert-danger').should('contain', errorMessage);
+});

@@ -17,7 +17,7 @@
         @if (f['userName'].errors['required']) {
         <div>Username is required</div>
         } @if (f['userName'].errors['minlength']) {
-        <div>minlength of User Name is 4</div>
+        <div>minimun length of User Name is 4</div>
         }
       </div>
       }
@@ -38,7 +38,7 @@
         @if (f['password'].errors['required']) {
         <div>password is required</div>
         } @if (f['password'].errors['minlength']) {
-        <div>minlength of User Name is 4</div>
+        <div>minimun length of password is 4</div>
         }
       </div>
       }
@@ -59,7 +59,7 @@
         @if (f['confirmPassword'].errors['required']) {
         <div>confirmPassword is required</div>
         } @if (f['confirmPassword'].errors['minlength']) {
-        <div>minlength of User Name is 4</div>
+        <div>minimun length of confirm password is 4</div>
         } @if (f['confirmPassword'].errors['matching']) {
         <div>confirmPassword does not match</div>
         }

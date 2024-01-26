@@ -1,3 +1,5 @@
+// <reference types="cypress" />
+
 describe('Navbar test', () => {
   beforeEach(() => {
     cy.visit('/');

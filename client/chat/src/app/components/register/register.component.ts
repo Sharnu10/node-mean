@@ -57,14 +57,14 @@ export class RegisterComponent implements OnInit {
       (response: any) => {
         if (response.success == true) {
           this.toastr.success(response.message, response.title, {
-            timeOut: 1000,
+            timeOut: 10000,
             progressBar: true,
             progressAnimation: 'increasing',
           });
           this.router.navigate(['/login']);
         } else {
           this.toastr.error(response.message, response.title, {
-            timeOut: 1000,
+            timeOut: 10000,
             progressBar: true,
             progressAnimation: 'increasing',
           });
@@ -72,7 +72,7 @@ export class RegisterComponent implements OnInit {
       },
       (error) => {
         this.toastr.error(error.message, error.status, {
-          timeOut: 1000,
+          timeOut: 10000,
           progressBar: true,
           progressAnimation: 'increasing',
         });
