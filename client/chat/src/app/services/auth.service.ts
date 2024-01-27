@@ -13,22 +13,31 @@ export class AuthService {
   apiUrl = `${this.BASE_URL}/users`;
   constructor(private http: HttpClient) {}
 
-  loggedIn(): boolean {
+  loggedIn() {
     return true;
+  }
+
+  login(User: any) {
+    let urls = this.apiUrl + '/authenticate';
+
+    this.http.post(urls, User);
+
+    return of({ success: true, message: 'message', title: 'Title' });
   }
 
   registerUser(User: any) {
     console.log('User ', User);
     let url = this.apiUrl + '/register';
 
-    const httpOptions = {
-      headers: new HttpHeaders({
-        Accept: 'application/x-www-form-urlencoded',
-        'Content-Type': 'application/json',
-      }),
-    };
+    // const httpOptions = {
+    //   headers: new HttpHeaders({
+    //     Accept: 'application/x-www-form-urlencoded',
+    //     'Content-Type': 'application/json',
+    //   }),
+    // };
 
-    let observableReq = this.http.post(url, User, httpOptions);
+    // let observableReq = this.http.post(url, User, httpOptions);
+    let observableReq = this.http.post(url, User);
 
     return (
       observableReq || of({ success: true, message: 'message', title: 'Title' })

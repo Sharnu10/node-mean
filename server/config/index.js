@@ -5,6 +5,7 @@ const ROOT = process.env.root || '';
 const apiPath = `${ROOT !== '/' ? ROOT : ''}/api`;
 const SECRET = process.env.SECRET || 'secretWord';
 const CHAT_PATH = process.env.CHAT_PATH || '/chat-path';
+const MONGO_HOST = process.env.MONGO_HOST || 'mongodb://localhost/chat-app';
 
 
 
@@ -15,6 +16,13 @@ const config = {
     apiPath,      // define the base path for API routes.
     server: {
         port: PORT
+    },
+    mongo: {
+        host: MONGO_HOST,
+        options: {
+            useNewUrlParser: true,
+            reconnectTries: Number.MAX_VALUE,
+        }
     },
     secret: SECRET,
     chatPath: CHAT_PATH
