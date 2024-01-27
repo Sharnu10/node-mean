@@ -1,5 +1,5 @@
+/// <reference types="cypress" />
 // import '../support/commands';
-// <reference types="cypress" />
 
 describe('Register page ', () => {
   beforeEach(() => {
