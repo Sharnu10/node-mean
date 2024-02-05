@@ -1,9 +1,9 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
-import { RequestOptions } from '@angular/http';
 
 import { environment } from '../../environments/environment';
+import { ApiResponse } from '../model/response.model';
 
 @Injectable({
   providedIn: 'root',
@@ -19,10 +19,10 @@ export class AuthService {
 
   login(User: any) {
     let urls = this.apiUrl + '/authenticate';
-
-    this.http.post(urls, User);
-
-    return of({ success: true, message: 'message', title: 'Title' });
+    let observableReq = this.http.post<ApiResponse>(urls, JSON.stringify(User));
+    return (
+      observableReq || of({ success: true, message: 'message', title: 'Title' })
+    );
   }
 
   registerUser(User: any) {
@@ -37,6 +37,7 @@ export class AuthService {
     // };
 
     // let observableReq = this.http.post(url, User, httpOptions);
+
     let observableReq = this.http.post(url, User);
 
     return (

@@ -22,6 +22,7 @@ const config = {
         options: {
             useNewUrlParser: true,
             reconnectTries: Number.MAX_VALUE,
+            useCreateIndex: true
         }
     },
     secret: SECRET,
