@@ -4,7 +4,7 @@
 
 ### UI home screen
 
-![Preview](./client/chat/preview/home_page.png)
+![Preview](./client/chat/preview/home_page.png =30x30)
 
 ### Tech used
 

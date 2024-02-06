@@ -1,4 +1,4 @@
-# Chat
+# 1. Chat UI
 
 ## still need to do
 
@@ -6,9 +6,25 @@
 - nav toggle
 - in register page: check checkLoggedIn, custom validation of password.
 
+- Chat page
+
+  - implement canActivate AuthGuard.
+
 - Test
+  - do code coverage in cypress.
   - write test for click, and routing
   - in register page: write test case
+
+## done
+
+- nodejs inspect in chrome.
+
+# 2. Chat Service
+
+## done
+
+- created hash of password to store. ![preview](../chat/preview/bcryptjs.jpg =30x30)
+- created jwt token ![preview](../chat/preview/jwt.png =30x30)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.8.
 

@@ -1,12 +1,15 @@
 const express = require('express');
-const User = require('../models/user');
+const bcryptjs = require('bcryptjs');
 const router = express.Router();
 
-// register
+const User = require('../models/user');
+
+// check server up
 router.get('/', (req, res, next) => {
     res.send('Hi server is up!');
 });
 
+// register
 router.post('/register', (req, res, next) => {
     let response = { success:  false };
     const { userName, password, confirmPassword } = req.body;
@@ -38,5 +41,34 @@ router.post('/register', (req, res, next) => {
         });
     }
 });
+
+// authenticate
+router.post('/authenticate', (req, res, next) => {
+    let response = { success: false };
+    const { userName, password } = req.body;
+
+    User.getUserByUsername(userName, (err, user) => {
+         if(err) return next(err);
+
+         if(user) {
+             bcryptjs.compare(password, user.password, (err, result) => {
+                 if(err) return next(err);
+                 if(result) {
+                     response.success = true;
+                     response.message = 'User authenticated successfuly!';
+                     response.user = {
+                         id: user._id,
+                         username: user.username
+                     }
+                     console.log('[%s] authenticated user: ', user.username);
+                     return res.json(response);
+                 } else {
+                     response.message = 'The password is not correct!';
+                 }
+                 return res.json(response);
+                })
+            }
+     });
+})
 
 module.exports = router;

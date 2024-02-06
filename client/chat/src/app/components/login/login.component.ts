@@ -5,10 +5,11 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 import { AuthService } from '../../services/auth.service';
-import { ToastrService } from 'ngx-toastr';
+import { ApiResponse } from '../../model/response.model';
+import { ToasterService } from '../../services/toaster.service';
 
 @Component({
   selector: 'app-login',
@@ -23,29 +24,31 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private toastrService: ToastrService
+    private toasterSer: ToasterService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
-      userName: ['', Validators.required],
-      password: ['', Validators.required],
+      userName: ['test', Validators.required],
+      password: ['test', Validators.required],
     });
   }
 
   login() {
-    this.authService.login(this.loginForm.value).subscribe((response) => {
-      if (response.success == true) {
-        this.toastrService.success(response.message, response.title, {
-          timeOut: 1000,
-          progressBar: true,
-        });
-      } else {
-        this.toastrService.error(response.message, response.title, {
-          timeOut: 1000,
-          progressBar: true,
-        });
-      }
+    this.authService.login(this.loginForm.value).subscribe({
+      next: (response: ApiResponse) => {
+        if (response.success === true) {
+          this.toasterSer.success(response);
+          this.authService.storeUserData(response.token, response.user);
+          this.router.navigate(['/chat']);
+        } else {
+          this.toasterSer.error(response);
+        }
+      },
+      error: (error) => {
+        this.toasterSer.error(error);
+      },
     });
   }
 }
