@@ -11,6 +11,9 @@ import { ApiResponse } from '../model/response.model';
 export class AuthService {
   BASE_URL = environment.backendUrl;
   apiUrl = `${this.BASE_URL}/users`;
+  authToken!: string | null;
+  user!: string | null;
+
   constructor(private http: HttpClient) {}
 
   loggedIn() {
@@ -25,23 +28,32 @@ export class AuthService {
     );
   }
 
+  /**
+   * @param User
+   * @returns
+   */
   registerUser(User: any) {
     console.log('User ', User);
     let url = this.apiUrl + '/register';
-
-    // const httpOptions = {
-    //   headers: new HttpHeaders({
-    //     Accept: 'application/x-www-form-urlencoded',
-    //     'Content-Type': 'application/json',
-    //   }),
-    // };
-
-    // let observableReq = this.http.post(url, User, httpOptions);
-
     let observableReq = this.http.post(url, User);
-
     return (
       observableReq || of({ success: true, message: 'message', title: 'Title' })
     );
+  }
+
+  storeUserData(token: string, user: any): void {
+    localStorage.setItem('token', token ?? '');
+    localStorage.setItem('user', JSON.stringify(user));
+  }
+
+  /**
+   * Get user data
+   * @returns user
+   */
+  getUserData() {
+    this.authToken = localStorage.getItem('token');
+    this.user = localStorage.getItem('user');
+    let userData = { token: this.authToken, user: this.user };
+    return userData;
   }
 }

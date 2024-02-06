@@ -30,8 +30,8 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
-      userName: ['', Validators.required],
-      password: ['', Validators.required],
+      userName: ['test', Validators.required],
+      password: ['test', Validators.required],
     });
   }
 
@@ -40,6 +40,7 @@ export class LoginComponent implements OnInit {
       next: (response: ApiResponse) => {
         if (response.success === true) {
           this.toasterSer.success(response);
+          this.authService.storeUserData(response.token, response.user);
           this.router.navigate(['/chat']);
         } else {
           this.toasterSer.error(response);

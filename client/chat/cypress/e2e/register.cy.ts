@@ -64,25 +64,27 @@ describe('Register page ', () => {
     );
   });
 
-  it('should show error is user already exist', () => {
+  // test only for existing user
+  xit('should show error is user already exist', () => {
     cy.visit(this.urls.register);
     cy.get('#username').type('test1');
     cy.get('#password').type('test');
     cy.get('#confirmPassword').type('test');
-    cy.get('[type="submit"]').click();
+    cy.get('[type="submit"]').should('contain', 'Register').click();
     // cy.get('.overlay-container');
     cy.get('.overlay-container > #toast-container', { timeout: 2000 })
       .should('exist')
       .contains(' Username is already in use.');
   });
 
+  // test only for new user
   it('should fill form and submit', () => {
     cy.visit(this.urls.register);
     cy.get('#username').type('test2');
     cy.get('#password').type('test');
     cy.get('#confirmPassword').type('test');
     cy.get('[type="submit"]').click();
-    cy.get('.ng-star-inserted > p').should('contain', 'login works!');
+    cy.get('.page-header').should('contain', 'Login');
     cy.get('.overlay-container > #toast-container', { timeout: 2000 })
       .should('exist')
       .contains(' User registed successfuly!');

@@ -1,1 +1,32 @@
-<p>active-list works!</p>
+<div class="wrapper">
+  <h3 class="text-center">Chats</h3>
+
+  <ul class="list-group">
+    <a
+      class="list-group-item"
+      (click)="onUserClick('chat-room')"
+      [ngClass]="{ active: current == 'chat-room' }"
+    >
+      <img
+        src="../assets/images/chat-msg.svg"
+        alt="chat-msg"
+        class="mx-2"
+        aria-hidden="true"
+      />Chat Room</a
+    >
+    @for (user of users; track user) {
+    <a
+      class="list-group-item"
+      (click)="onUserClick(user.username)"
+      [ngClass]="{ active: current === user.username, online: user.online }"
+    >
+      <img
+        src="../../../assets/images/person-avator.png"
+        alt="avatar"
+        class="image"
+      />
+      {{ user.username ?? "no user" }}
+    </a>
+    }
+  </ul>
+</div>

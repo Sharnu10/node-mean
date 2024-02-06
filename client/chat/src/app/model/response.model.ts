@@ -7,6 +7,7 @@ export interface ApiResponse {
   success: boolean;
   message: string;
   user: User;
+  token: string;
 }
 
 export interface AuthResponse extends ApiResponse {
