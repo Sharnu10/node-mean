@@ -1,12 +1,27 @@
 const express = require('express');
-const bcryptjs = require('bcryptjs');
+const bcryptjs = require('bcryptjs'); // bcryptjs is a JavaScript library used for hashing passwords. It's a popular choice for securely storing passwords in databases.
 const router = express.Router();
+const jwt = require('jsonwebtoken'); // create JWT (JSON Web Token) tokens using the jsonwebtoken library.
 
 const User = require('../models/user');
+const config = require('../config');
+const log = require('../log');
 
 // check server up
 router.get('/', (req, res, next) => {
-    res.send('Hi server is up!');
+   let allUser =  User.find({}, '-password');
+
+   allUser.then((users) => {
+    let response = {
+        success: true,
+        users: users,
+      };
+      return res.json(response);
+   })
+   .catch((err) => {
+    log.err('mongo', 'failed to get users', err.message || err);
+    return next(new Error('Failed to get users'));
+   })
 });
 
 // register
@@ -60,6 +75,13 @@ router.post('/authenticate', (req, res, next) => {
                          id: user._id,
                          username: user.username
                      }
+
+                     let token = jwt.sign(response.user, config.secret, {
+                         expiresIn: 604800
+                     });
+
+                     response.token = 'JWT ' + token;
+
                      console.log('[%s] authenticated user: ', user.username);
                      return res.json(response);
                  } else {
@@ -69,6 +91,7 @@ router.post('/authenticate', (req, res, next) => {
                 })
             }
      });
-})
+});
+
 
 module.exports = router;
