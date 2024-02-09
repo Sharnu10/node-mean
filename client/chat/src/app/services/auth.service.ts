@@ -17,7 +17,8 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   loggedIn() {
-    return true;
+    let user = localStorage.getItem('user');
+    return user ? user : false;
   }
 
   login(User: any) {
@@ -52,8 +53,14 @@ export class AuthService {
    */
   getUserData() {
     this.authToken = localStorage.getItem('token');
-    this.user = localStorage.getItem('user');
-    let userData = { token: this.authToken, user: this.user };
+    let user = localStorage.getItem('user');
+    let jUser = user ? JSON.parse(user) : '';
+    let userData = { token: this.authToken, user: jUser };
     return userData;
+  }
+
+  logout() {
+    localStorage.clear();
+    console.clear();
   }
 }

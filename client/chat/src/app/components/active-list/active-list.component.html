@@ -26,6 +26,15 @@
         class="image"
       />
       {{ user.username ?? "no user" }}
+      @if (user.online) {
+      <span>
+        <img
+          src="../../../assets/images/ok-tick.png"
+          alt="ok-tick"
+          class="mx-2 image"
+        />
+      </span>
+      }
     </a>
     }
   </ul>
