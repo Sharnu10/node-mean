@@ -4,7 +4,8 @@ const PORT = process.env.PORT || 8080;
 const ROOT = process.env.root || '';
 const apiPath = `${ROOT !== '/' ? ROOT : ''}/api`;
 const SECRET =  'secretWord' || process.env.SECRET;
-const CHAT_PATH = process.env.CHAT_PATH || '/chat-path';
+const CHAT_PATH = process.env.CHAT_PATH || '/mean-chat-app.io';
+// const CHAT_PATH = process.env.CHAT_PATH || '/chat-path';
 const MONGO_HOST = process.env.MONGO_HOST || 'mongodb://localhost/chat-app';
 
 

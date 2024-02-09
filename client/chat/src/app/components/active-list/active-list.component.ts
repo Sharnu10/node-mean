@@ -14,7 +14,7 @@ export class ActiveListComponent implements OnInit {
   @Output() newConversation = new EventEmitter();
 
   ngOnInit(): void {
-    console.log(this.users);
+    console.log('users active page: ', this.users);
   }
 
   onUserClick(username: string) {
