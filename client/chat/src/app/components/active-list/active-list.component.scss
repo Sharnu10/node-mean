@@ -1,5 +1,5 @@
+@import "../../../assets/scss/mixins.scss";
 
-
-.image {
-    width: 15%;
+.img-avator {
+    @include responsive-image(15%)
 }

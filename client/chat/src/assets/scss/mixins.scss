@@ -1,12 +1,9 @@
-
-
 @mixin transition($properties...) {
-
-    @if length($properties) >= 1 {
-        @include css3-prefix('transition', $properties);
-    } @else {
-        @include css3-prefix('transition', 'all 0.1s ease-in-out 0s');
-    }
+  @if length($properties) >= 1 {
+    @include css3-prefix("transition", $properties);
+  } @else {
+    @include css3-prefix("transition", "all 0.1s ease-in-out 0s");
+  }
 }
 
 /// Adds a browser prefix to the property
@@ -14,10 +11,146 @@
 /// @param {*} $value Value
 
 @mixin css3-prefix($property, $value) {
-    -webkit-#{$property}: #{$value};
-     -khtml-#{$property}: #{$value};
-       -moz-#{$property}: #{$value};
-        -ms-#{$property}: #{$value};
-         -o-#{$property}: #{$value};
-            #{$property}: #{$value};
+  -webkit-#{$property}: #{$value};
+  -khtml-#{$property}: #{$value};
+  -moz-#{$property}: #{$value};
+  -ms-#{$property}: #{$value};
+  -o-#{$property}: #{$value};
+  #{$property}: #{$value};
+}
+
+/**
+  display
+*/
+%display-flex {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -webkit-flexbox;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+%display-inline-flex {
+  display: -webkit-inline-flex;
+  display: inline-flex;
+}
+
+@mixin display-flex() {
+  @extend %display-flex;
+}
+@mixin display-inline-flex() {
+  @extend %display-inline-flex;
+}
+
+/*
+    Justify content
+ */
+%justify-content-flex-start {
+  -webkit-box-pack: start;
+  -moz-box-pack: start;
+  -webkit-flex-pack: start;
+  -ms-flex-pack: start;
+  -moz-justify-content: flex-start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+}
+%justify-content-flex-end {
+  -webkit-box-pack: end;
+  -moz-box-pack: end;
+  -webkit-flex-pack: end;
+  -ms-flex-pack: end;
+  -moz-justify-content: flex-end;
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
+}
+%justify-content-center {
+  -webkit-box-pack: center;
+  -moz-box-pack: center;
+  -webkit-flex-pack: center;
+  -ms-flex-pack: center;
+  -moz-justify-content: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+%justify-content-space-between {
+  -webkit-box-pack: justify;
+  -moz-box-pack: justify;
+  -webkit-flex-pack: justify;
+  -ms-flex-pack: justify;
+  -moz-justify-content: space-between;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+%justify-content-space-around {
+  -moz-justify-content: space-around;
+  -webkit-justify-content: space-around;
+  justify-content: space-around;
+}
+%justify-content-inherit {
+  -webkit-box-pack: inherit;
+  -moz-box-pack: inherit;
+  -webkit-flex-pack: inherit;
+  -ms-flex-pack: inherit;
+  -moz-justify-content: inherit;
+  -webkit-justify-content: inherit;
+  justify-content: inherit;
+}
+@mixin justify-content($justify: flex-start) {
+  @if not
+    index(
+      (flex-start, flex-end, center, space-between, space-around, inherit),
+      $justify
+    )
+  {
+    $justify: flex-start;
   }
+  @extend %justify-content-#{$justify};
+}
+
+/** 
+* responsive
+*
+*/
+@mixin responsive-image($width: 100%, $height: 100%) {
+  max-width: $width;
+  max-height: $height;
+  width: 100%;
+  height: auto;
+}
+
+/// Opacity
+/// @param {Double} $opacity [0.5] - Opacity
+/// @require {mixin} css3-prefix
+
+@mixin opacity($opacity: 0.5) {
+  $opacityMultiplied: ($opacity * 100);
+
+  filter:         alpha(opacity=$opacityMultiplied);
+  -ms-filter:     "progid:DXImageTransform.Microsoft.Alpha(Opacity=" + $opacityMultiplied + ")";
+  @include css3-prefix('opacity', $opacity);
+}
+
+/// Border
+
+/// Border Radius
+/// @param {Size} $radius [5px] - Radius
+/// @require {mixin} css3-prefix
+
+@mixin border-radius($radius: 5px) {
+  @include css3-prefix('border-radius', $radius);
+}
+
+/// Double Borders
+/// @param {Color} $colorOne [#3C3C3C] - Color One
+/// @param {Color} $colorTwo [#999999] - Color Two
+/// @param {Size} $radius [0] - Radius
+/// @require {mixin} css3-prefix
+/// @require {mixin} border-radius
+
+@mixin double-borders($colorOne: #3C3C3C, $colorTwo: #999999, $radius: 0) {
+  border: 1px solid $colorOne;
+
+  @include css3-prefix('box-shadow', 0 0 0 1px $colorTwo);
+
+  @include border-radius( $radius );
+}

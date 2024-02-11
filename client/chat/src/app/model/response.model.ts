@@ -4,10 +4,10 @@ export interface User {
 }
 
 export interface ApiResponse {
-  success: boolean;
   message: string;
-  user: User;
+  success: boolean;
   token: string;
+  user: User;
 }
 
 export interface AuthResponse extends ApiResponse {

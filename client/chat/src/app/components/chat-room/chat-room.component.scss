@@ -1,5 +1,10 @@
 @import "../../../assets/scss/mixins.scss";
 
+.container-fuild {
+    .row {
+        width: 100%;
+    }
+}
 
 .msg-container {
     margin: 0;
@@ -10,11 +15,11 @@
 }
 
 .blurred {
-   @include css3-prefix(filter, blur(1px));
+    @include css3-prefix(filter, blur(1px));
 }
 
 #noMsg {
     width: 100%;
     height: 100%;
     padding-top: calc((100vh - 11rem) / 2 - 30px);
-  }
+}

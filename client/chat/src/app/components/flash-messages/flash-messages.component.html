@@ -1,1 +1,36 @@
-<p>flash-messages works!</p>
+@if (message) {
+<div
+  class="panel col-12 my-2 p-1 m-1"
+  [ngClass]="{ 'panel-info': message?.mine, 'panel-warning': !message?.mine }"
+>
+  @if (message) {
+  <div class="panel-body" [ngClass]="{ mine: message.mine }">
+    @if (!message.mine) {
+    <div class="avator">
+      <img
+        src="../../../assets/images/person-avator.png"
+        alt="person-avator"
+        class="img-avator mx-1"
+      />
+    </div>
+    }
+
+    <div class="msg-text-container">
+      <h3>{{ message.from }}</h3>
+      <div>{{ message.text }}</div>
+      <h3 class="panel-title" id="time" [ngClass]="{ 'fade-in': fadeTime }">
+        <small> . {{ time }}</small>
+      </h3>
+    </div>
+
+    @if (message.mine) {
+    <img
+      src="../../../assets/images/person-avator.png"
+      alt="person-avator"
+      class="img-avator mx-1"
+    />
+    }
+  </div>
+  }
+</div>
+}

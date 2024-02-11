@@ -1,7 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
 @import "../node_modules/ngx-toastr/toastr-bs5-alert.scss";
+@import "../src/assets/scss/mixins.scss";
 
 body {
-    width: 99%;
+    // width: 100vh;
+
+    
 }

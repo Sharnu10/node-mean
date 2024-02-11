@@ -1,6 +1,6 @@
 // get configs from environment
 const NODE_ENV = process.env.NODE_ENV || 'development';
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3000;
 const ROOT = process.env.root || '';
 const apiPath = `${ROOT !== '/' ? ROOT : ''}/api`;
 const SECRET =  'secretWord' || process.env.SECRET;

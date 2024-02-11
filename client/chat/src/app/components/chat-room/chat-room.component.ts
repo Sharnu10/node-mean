@@ -1,31 +1,49 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { Router } from '@angular/router';
 
 import { ActiveListComponent } from '../active-list/active-list.component';
 import { ChatService } from '../../services/chat.service';
 import { AuthService } from '../../services/auth.service';
+import { FlashMessagesComponent } from '../flash-messages/flash-messages.component';
+import { Message } from '../../model/message.model';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-chat-room',
   standalone: true,
-  imports: [ActiveListComponent, NgClass],
+  imports: [
+    ReactiveFormsModule,
+    NgClass,
+    ActiveListComponent,
+    FlashMessagesComponent,
+  ],
   templateUrl: './chat-room.component.html',
   styleUrl: './chat-room.component.scss',
 })
 export class ChatRoomComponent implements OnInit {
   chatWith!: string;
-  showActive!: boolean;
+  currentOnline!: boolean;
+  messageList: Message[] = [];
   noMsg!: boolean;
+  receiveActiveObs: any;
+  showActive!: boolean;
   userList!: any[];
   username!: string;
-  receiveActiveObs: any;
-  currentOnline!: boolean;
+  sendForm!: FormGroup;
+  conversationId!: string;
 
   constructor(
-    private chatSer: ChatService,
+    private chatService: ChatService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private fb: FormBuilder,
+    private elementRef: ElementRef
   ) {}
 
   ngOnInit(): void {
@@ -36,14 +54,18 @@ export class ChatRoomComponent implements OnInit {
     this.chatWith = 'chat-room';
     this.noMsg = true;
 
+    this.sendForm = this.fb.group({
+      message: ['', Validators.required],
+    });
+
     this.connectToChat();
   }
 
   connectToChat(): void {
-    if (this.chatSer.isConnected()) {
+    if (this.chatService.isConnected()) {
       this.initReceivers();
     } else {
-      this.chatSer.connect(this.username, () => {
+      this.chatService.connect(this.username, () => {
         this.initReceivers();
       });
     }
@@ -54,7 +76,7 @@ export class ChatRoomComponent implements OnInit {
   }
 
   getUserList() {
-    this.chatSer.getUserList().subscribe((data: any) => {
+    this.chatService.getUserList().subscribe((data: any) => {
       if (data.success == true) {
         let users = data.users;
         for (let i = 0; i < users.length; i++) {
@@ -65,7 +87,7 @@ export class ChatRoomComponent implements OnInit {
         }
         this.userList = users.sort(this.compareByUsername);
 
-        this.receiveActiveObs = this.chatSer
+        this.receiveActiveObs = this.chatService
           .receiveActiveList()
           .subscribe((users: any) => {
             for (let onlineUser of users) {
@@ -101,7 +123,7 @@ export class ChatRoomComponent implements OnInit {
             this.currentOnline = this.checkOnline(this.chatWith);
           });
 
-        this.chatSer.getActiveList();
+        this.chatService.getActiveList();
       } else {
         this.onNewConversation('chat-room');
       }
@@ -127,12 +149,41 @@ export class ChatRoomComponent implements OnInit {
     // if (this.chatWith != username) {
     //   this.router.navigate(['/chat', username]);
     // }
-    this.getMessages(username);
+    this.getMessages();
     this.currentOnline = this.checkOnline(username);
     this.showActive = false;
   }
 
-  getMessages(username: string) {}
+  getMessages() {}
+
+  onSendMessage(): void {
+    let newMessage: Message = {
+      created: new Date(),
+      from: this.username,
+      text: this.sendForm.value.message,
+      conversationId: this.conversationId,
+      inChatRoom: this.chatWith == 'chat-room',
+    };
+    newMessage.mine = true;
+    this.chatService.sendMessage(newMessage, this.chatWith);
+    this.noMsg = false;
+    this.messageList.push(newMessage);
+    this.scrollToBottom();
+    this.sendForm.setValue({ message: '' });
+  }
+
+  checkMine(message: Message): void {
+    message.from === this.username
+      ? (message.mine = true)
+      : (message.mine = false);
+  }
+
+  scrollToBottom(): void {
+    let element = this.elementRef.nativeElement.querySelector('msg-container');
+    setTimeout(() => {
+      element.scrolTop = element.scrollHeight;
+    }, 100);
+  }
 
   compareByUsername(a: any, b: any): number {
     if (a.username < b.username) return -1;

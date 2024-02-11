@@ -1,0 +1,37 @@
+@import "../../../assets/scss/mixins.scss";
+
+.panel {
+  width: 99%;
+  @include display-flex();
+  @include justify-content(flex-end); 
+
+  .panel-body {
+    @include display-flex();
+    
+
+    &.mine {
+      @include justify-content(flex-end);
+      text-align: right;
+    }
+
+    .img-avator {
+      @include responsive-image(23%, 78%);
+    }
+  }
+ 
+}
+.panel-info,
+  .panel-warning {
+    @include double-borders('#c61616', '#c61616');
+  }
+
+#time {
+  @include opacity(0);
+  @include transition("opacity .2s ease-in 0s");
+
+  font-size: 0.78rem;
+
+  &.fade-in {
+    @include opacity();
+  }
+}

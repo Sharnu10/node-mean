@@ -13,18 +13,48 @@
     <div class="col-sm-9 col-lg-10 column">
       <div class="panel panel-primary">
         <div class="panel-heading text-center">
-          <!-- <button class="btn btn-warning"></button> -->
           {{ chatWith }}
           <span>online</span>
         </div>
 
         <div
           class="panel-body msg-container"
-          [ngClass]="{ blurred: showActive }"
+          [ngClass]="{ blurred: showActive && noMsg }"
         >
           @if (noMsg) {
           <div id="noMsg" class="text-center">There are no messages.</div>
+          } @for (message of messageList; track message) {
+          <flash-messages [message]="message"></flash-messages>
           }
+        </div>
+
+        <div class="panel-footer">
+          <!-- <div class="panel-footer" [ngClass]="{ blurred: showActive }"> -->
+          <form [formGroup]="sendForm" (ngSubmit)="onSendMessage()">
+            <div class="input-group">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Type your message..."
+                id="message"
+                name="message"
+                formControlName="message"
+                autofocus="true"
+                autocomplete="off"
+              />
+
+              <span class="input-group-btn">
+                <button
+                  [disabled]="sendForm.invalid"
+                  type="submit"
+                  class="btn btn-primary"
+                  name="send"
+                >
+                  Send
+                </button>
+              </span>
+            </div>
+          </form>
         </div>
       </div>
     </div>
